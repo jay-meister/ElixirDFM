@@ -38,8 +38,6 @@ bash watch.sh
 ```
 ___
 
-#### NOTE: 
-There is a key inefficiency that I am aware of:
+#### NOTES: 
 - It is an eager solution & reads full file into memory before applying filters
-
-Unfortunately I am not farmiliar with TypeSpecs but have done my best to incorporate them 
+- Unfortunately I am not farmiliar with TypeSpecs but have done my best to incorporate them 

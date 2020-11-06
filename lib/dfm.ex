@@ -26,21 +26,14 @@ defmodule DFM do
   @spec parse(String.t()) :: list(DFM.Trace.t())
   def parse(path) do
     path
-    |> File.read!()
-    |> CSV.parse_string()
-    |> Enum.map(fn [case_id, activity, start, _complete, _classification] ->
-      %{
-        case_id: case_id,
-        activity: activity,
-        start: start
-      }
+    |> File.stream!()
+    |> CSV.parse_stream()
+    |> Stream.map(fn [case_id, activity, start, _complete, _classification] ->
+      %{case_id: case_id, event: %DFM.Event{activity: activity, start: parse_timestamp!(start)}}
     end)
-    |> Enum.reduce(%{}, fn %{case_id: case_id} = raw, acc ->
-      event = event(raw)
-      Map.update(acc, case_id, [event], &[event | &1])
-    end)
-    |> Enum.map(fn {id, events} ->
-      %DFM.Trace{id: id, events: Enum.sort_by(events, & &1.start)}
+    |> Enum.group_by(& &1.case_id, & &1.event)
+    |> Enum.map(fn {case_id, events} ->
+      %DFM.Trace{id: case_id, events: Enum.sort_by(events, & &1.start)}
     end)
   end
 
@@ -73,10 +66,6 @@ defmodule DFM do
 
   def add_follower(acc, activity_1, activity_2) do
     Map.put(acc, activity_1, Map.put(%{}, activity_2, 1))
-  end
-
-  defp event(%{activity: activity, start: start}) do
-    %DFM.Event{activity: activity, start: parse_timestamp!(start)}
   end
 
   @spec parse_timestamp!(String.t()) :: DateTime.t()
