@@ -1,0 +1,4 @@
+Case ID,Activity,Start,Complete,Classification
+trace_0,Incident logging,2016/01/04 12:09:44.000,2016/01/04 12:09:44.000,
+trace_0,Incident classification,2016/01/04 12:10:44.000,2016/01/04 12:17:44.000,Citrix
+trace_0,Initial diagnosis,2016/01/04 12:34:44.000,2016/01/04 12:39:44.000,
