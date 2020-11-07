@@ -12,8 +12,8 @@ DFM.run(from: ~U[2016-01-04 00:01:00Z], to: ~U[2016-01-04 13:00:00Z])
 
 ```bash
 mix test
-# watch tests:
-bash watch.sh
+# watch tests (mac):
+mix test.watch
 ```
 
 #### QUESTIONS (which became assumptions):
